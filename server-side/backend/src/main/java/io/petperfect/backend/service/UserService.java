@@ -1,6 +1,6 @@
-package io.petperfet.backend.service;
+package io.petperfect.backend.service;
 
-import io.petperfet.backend.entity.UserEntity;
+import io.petperfect.backend.entity.UserEntity;
 
 public interface UserService {
 

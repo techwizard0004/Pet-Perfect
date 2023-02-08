@@ -1,4 +1,4 @@
-package io.petperfet.backend.service;
+package io.petperfect.backend.service;
 
 public interface BookingService {
 }

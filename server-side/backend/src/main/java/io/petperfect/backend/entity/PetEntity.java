@@ -1,4 +1,4 @@
-package io.petperfet.backend.entity;
+package io.petperfect.backend.entity;
 
 public class PetEntity {
 }

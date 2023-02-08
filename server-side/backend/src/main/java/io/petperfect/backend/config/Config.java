@@ -1,7 +1,7 @@
-package io.petperfet.backend.config;
+package io.petperfect.backend.config;
 
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class config {
+public class Config {
 }

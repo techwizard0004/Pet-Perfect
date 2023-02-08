@@ -1,4 +1,4 @@
-package io.petperfet.backend.repository;
+package io.petperfect.backend.repository;
 
 public class ReportRepo {
 }

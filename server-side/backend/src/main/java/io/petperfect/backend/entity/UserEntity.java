@@ -1,4 +1,4 @@
-package io.petperfet.backend.entity;
+package io.petperfect.backend.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +23,7 @@ public class UserEntity {
 
     private String name;
 
-    private String eamil;
+    private String email;
 
     private String contact;
 
@@ -35,6 +35,6 @@ public class UserEntity {
 
     private String shopName;
 
-    private String lisenceNo;
+    private String licenceNo;
 
 }
