@@ -13,5 +13,5 @@ public interface UserRepo extends JpaRepository<UserEntity, Integer> {
 
     public void deleteByEmailIgnoreCase(String email);
 
-    public List<UserEntity> findByNameOrContactOrEmail(String keyword);
+    //public List<UserEntity> findByNameOrContactOrEmail(String keyword);
 }

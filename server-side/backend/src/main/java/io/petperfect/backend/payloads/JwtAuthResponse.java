@@ -10,10 +10,10 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class JwtResponse {
+public class JwtAuthResponse {
 
     private String token;
     private int userId;
-    private List<Role> role;
+    private List<String> role;
     private boolean isAuthenticated = false;
 }

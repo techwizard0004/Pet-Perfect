@@ -2,6 +2,10 @@ package io.petperfect.backend.service;
 
 import io.petperfect.backend.entity.Role;
 import io.petperfect.backend.entity.UserEntity;
+import io.petperfect.backend.exception.MethodArgumentsNotFound;
+import io.petperfect.backend.exception.ResourceAlreadyExists;
+import io.petperfect.backend.exception.ResourceNotFoundException;
+import io.petperfect.backend.exception.UnauthorizedException;
 import io.petperfect.backend.payloads.UserRequest;
 import io.petperfect.backend.payloads.UserResponse;
 
@@ -18,7 +22,14 @@ import io.petperfect.backend.repository.UserRepo;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
+    private static final String USER_NOT_FOUND = "User not found with ";
+    private static final String EMAIL = "email";
+    private static final String USER_CREATED = "User created";
+    private static final String USER_UPDATED = "User updated";
+    private static final String USER_DELETED = "User deleted , id: {}";
+    private static final String USER_FOUND = "User found , :{}";
     @Autowired
     private UserRepo userRepo;
 
@@ -26,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
+
 
     @Override
     public UserResponse saveUser(UserRequest userRequest) {
@@ -43,15 +54,14 @@ public class UserServiceImpl implements UserService {
                 return this.convertUserToUserResponse(user);
             } else {
                 LOGGER.warn("User already exists");
-              //  throw new ResourceAlreadyExists("User", EMAIL, userRequest.getEmail());
+              throw new ResourceAlreadyExists("User", EMAIL, userRequest.getEmail());
             }
         } else {
-            //throw new MethodArgumentsNotFound("UserRequest is null");
-            LOGGER.warn("User Request is null");
+            throw new MethodArgumentsNotFound("UserRequest is null");
+
         }
         
-        return null;
-    }
+}
 
     @Override
     public List<UserResponse> findAll() {
@@ -68,8 +78,8 @@ public class UserServiceImpl implements UserService {
         if (userRequest != null && id > 0) {
             UserEntity user = this.userRepo.findById(id).orElseThrow();
             if(!user.getEmail().equalsIgnoreCase(reqUseremail)){
-                //throw new UnauthorizedException("You are not authorized to update this user");
-                LOGGER.warn("Unauthorize User Access");
+                throw new UnauthorizedException("You are not authorized to update this user");
+
             }
             user.setUserId(id);
             user.setEmail(userRequest.getEmail());
@@ -80,15 +90,24 @@ public class UserServiceImpl implements UserService {
             return this.convertUserToUserResponse(user);
 
         } else {
-           // throw new MethodArgumentsNotFound("UserRequest or Id is null");
-            return null;
+           throw new MethodArgumentsNotFound("UserRequest or Id is null");
+
         }
     }
 
     @Override
     public UserEntity findByEmail(String email) {
-        // TODO Auto-generated method stub
-        return null;
+        if (!email.isEmpty()) {
+            UserEntity user = userRepo.findByEmailIgnoreCase(email);
+            if (user != null) {
+                LOGGER.info(USER_FOUND, user.getEmail());
+                return userRepo.findByEmailIgnoreCase(email);
+            } else {
+                throw new ResourceNotFoundException("user", EMAIL, email);
+            }
+        } else {
+            throw new MethodArgumentsNotFound("Email", "findByEmail", email);
+        }
     }
 
     @Override
@@ -102,5 +121,10 @@ public class UserServiceImpl implements UserService {
         res.setRole(new ArrayList<>(user.getRoles()));
         return res;
 
+    }
+
+    @Override
+    public UserResponse registerUser(UserRequest userRequest) {
+        return null;
     }
 }

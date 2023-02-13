@@ -20,4 +20,5 @@ public interface UserService {
 
     UserResponse convertUserToUserResponse(UserEntity user);
 
+    UserResponse registerUser(UserRequest userRequest);
 }
