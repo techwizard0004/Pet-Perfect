@@ -1,22 +1,21 @@
 package io.petperfect.backend.entity;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.INTEGER)
-    private Long id;
+    private int id;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(nullable = false)
+    private String name;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
