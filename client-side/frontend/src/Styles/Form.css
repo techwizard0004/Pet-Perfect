@@ -1,0 +1,81 @@
+.container-fluid #wrapper-form{
+    background-color: var(--bgthree);
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 50px;
+    padding-top: 15vh;
+}
+
+.container-fluid #wrapper-form form{
+    background-color: white;
+    width: 35%;
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.container-fluid #wrapper-form form p{
+    font-family: 'Aleo', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: red;
+    padding-bottom: 2.5px;
+}
+
+.container-fluid #wrapper-form form input{
+    width: 85%;
+    height: 35px;
+    background-color: rgba(205, 204, 204, 0.685);
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+}
+
+.container-fluid #wrapper-form form label{
+    font-family: 'Aleo', serif;
+    font-size: 17px;
+    padding-top: 5px;
+}
+
+.container-fluid #wrapper-form form button{
+    width: 165px;
+    height: 55px;
+    margin-top: 30px;
+}
+
+
+
+
+
+
+@media only screen and (max-width: 900px){
+    .container-fluid #wrapper-form{
+        padding-top: 5vh;
+    }
+    .container-fluid #wrapper-form form{
+        width: 65%;
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .container-fluid #wrapper-form{
+        padding-top: 15vh;
+    }
+    .container-fluid #wrapper-form form{
+        width: 95%;
+    }
+
+    .container-fluid #wrapper-form form button{
+        margin-top: 25px;
+    }
+
+    .container-fluid #wrapper-form form input{
+        width: 95%;
+    }
+    
+    .container-fluid #wrapper-form form label{
+        font-size: 15px;
+    }
+    
+}

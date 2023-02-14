@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Aleo&family=Old+Standard+TT:wght@700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body::-webkit-scrollbar{
+  display: none;
+}
+
+:root {
+    --navbg: #283593;
+    --hdrbg: #1c1c1cde;
+    --bodybg: #ffffff;
+    --ftrbg: #2f2f2f;
+    --bgone: #3949ab;
+    --bgtwo: #596bd1;
+    --bgthree: #8a95d4;
+  /* font-family: 'Aleo', serif;
+    font-family: 'Old Standard TT', serif; */
+}
+
+
+button{
+  background-color: var(--bgone);
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  font-family: 'Old Standard TT', serif; 
+  border: none;
+  outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}

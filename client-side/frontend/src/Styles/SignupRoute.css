@@ -1,0 +1,46 @@
+.container-fluid #wrapper-signuproute
+{
+    background-color: var(--bgthree);
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 15px;
+}
+
+.container-fluid #wrapper-signuproute .card{
+    padding: 20px;
+    padding-bottom: 30px;
+}
+
+.container-fluid #wrapper-signuproute .card h3{
+    font-family: 'Aleo', serif;
+    color: black;
+    font-size: 30px;
+    padding-top: 15px;
+}
+
+.container-fluid #wrapper-signuproute .card h6{
+    font-family: 'Aleo', serif;
+    color: black;
+    font-size: 17px;
+    padding-bottom: 10px;
+}
+
+.container-fluid #wrapper-signuproute .card button{
+    width: 120px;
+    height: 45px;
+}
+
+@media only screen and (max-width: 900px){
+    .container-fluid #wrapper-signuproute .card h3{
+        font-size: 26px;
+    }
+    
+    .container-fluid #wrapper-signuproute .card h6{
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 480px){
+}
