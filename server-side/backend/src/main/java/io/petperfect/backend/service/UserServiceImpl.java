@@ -16,6 +16,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.petperfect.backend.repository.UserRepo;
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper;
 
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
     @Override
     public UserResponse saveUser(UserRequest userRequest) {
@@ -47,7 +50,7 @@ public class UserServiceImpl implements UserService {
                 Set<Role> roles = new HashSet<>();
                 roles.add(roleService.findRoleByName(userRequest.getRole()));
                 UserEntity user = this.convertUserRequestToUser(userRequest);
-                user.setPassword(userRequest.getPassword());
+                user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
                 user.setRoles(roles);
                 user = userRepo.save(user);
                 LOGGER.info("USER_CREATED");

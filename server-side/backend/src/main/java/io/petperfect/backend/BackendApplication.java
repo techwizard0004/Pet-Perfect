@@ -13,28 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
-public class BackendApplication implements CommandLineRunner {
-	@Autowired
-	private RoleService roleService;
-	@Autowired private UserRepo userRepository;
-
+public class BackendApplication{
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		List<Role> roles = this.roleService.findAllRoles();
-		if(roles.isEmpty()){
-			Role role = new Role();
-			role.setName("ROLE_ADMIN");
-			this.roleService.saveRole(role);
-
-			Role role1 = new Role();
-			role1.setName("ROLE_USER");
-			this.roleService.saveRole(role1);
-		}
-
-
-	}
 }

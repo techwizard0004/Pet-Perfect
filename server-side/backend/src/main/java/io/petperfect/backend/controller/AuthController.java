@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("backend/auth")
+@RequestMapping("/backend/api")
 public class AuthController {
     @Autowired private JwtTokenHelper jwtTokenHelper;
 
@@ -39,7 +39,7 @@ public class AuthController {
     @Autowired private UserService userService;
 
     @PreAuthorize("permitAll()")
-    @PostMapping("/login")
+    @PostMapping("/public/login")
     public ResponseEntity<JwtAuthResponse> createToken(@Valid @RequestBody JwtAuthReq jwtAuthReq){
         this.authenticate(jwtAuthReq.getEmail(),jwtAuthReq.getPassword());
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtAuthReq.getEmail());
@@ -63,16 +63,18 @@ public class AuthController {
     }
 
     @PreAuthorize("permitAll()")
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest){
+    @PostMapping("/public/register")
+    public ResponseEntity<Boolean> register(@Valid @RequestBody UserRequest userRequest){
         if(userRequest == null){
             throw new MethodArgumentsNotFound("User Request is null");
         }
-        UserResponse res = this.userService.registerUser(userRequest);
-        return new ResponseEntity<>(res,HttpStatus.CREATED);
+        UserResponse res = this.userService.saveUser(userRequest);
+        if(res!=null){
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.CREATED);
+        }
+        else return new ResponseEntity<>(Boolean.FALSE,HttpStatus.INTERNAL_SERVER_ERROR);
+
 
     }
-
-
 
 }

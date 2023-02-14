@@ -17,7 +17,7 @@ function UpdateProfile() {
     password: "",
     shopName: "",
     licenceNo: "",
-    userRole: "",
+    role: "",
   });
   const [inputArray, setInputArray] = useState<Array<InputModel>>([]);
 
@@ -32,7 +32,7 @@ function UpdateProfile() {
       password: "",
       shopName: "Samrat Pet Shop",
       licenceNo: "RGY09234",
-      userRole: role,
+      role: role,
     });
 
     let inputs: Array<InputModel> = [];

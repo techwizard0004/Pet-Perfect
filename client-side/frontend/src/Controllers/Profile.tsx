@@ -2,8 +2,14 @@ import React, { useEffect, useState } from 'react'
 import UserEntity from '../Entity/UserEntity';
 import "../Styles/Profile.css";
 import UserLogo from "../Assets/user.png";
+import SessionService from '../Services/SessionService';
 
 function Profile() {
+    const session = new SessionService();
+    if(session.isUserLoggedIn() !== true){
+        window.location.href = "/login";
+    }
+
     const [userEntity, setUserEntity] = useState<UserEntity>({
         id: 0,
         name: "",
@@ -14,26 +20,19 @@ function Profile() {
         password: "",
         shopName: "",
         licenceNo: "",
-        userRole: ""
+        role: ""
     });
 
     useEffect(() => {
-        setUserEntity({
-            id: 1,
-            name: "Soumik Sarkar",
-            email: "soumik123@gmail.com",
-            address: "290, Parsekar Cottage, Sahar Rd., Dhaka Johar, Mukherjee Nagar, Delhi, 560028",
-            contact: "9023145924",
-            age: 30,
-            password: "",
-            shopName: "",
-            licenceNo: "",
-            userRole: "ROLE_USER",
-        })
+       
     }, []);
 
     const handleLogoutButtonClick = () => {
+        const session = new SessionService();
+        session.logoutAndDestroySession();
         console.log("Logged Out Successfully");
+
+        window.location.href = "/home";
     }
 
     return (
