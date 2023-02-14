@@ -1,0 +1,158 @@
+header{
+    width: 100%;
+    height: 55px;
+    background-color: var(--hdrbg);
+    color: white;
+    position: fixed;
+    z-index: 3;
+}
+
+header #bars{
+    margin-top: 15px;
+    margin-left: 18px;
+    margin-right: 10px;
+    font-size: 30px;
+    float: left;
+}
+
+header #bars :hover{
+    cursor: pointer;
+}
+
+header a{
+    text-decoration: none;
+}
+
+header img{
+    width: 45px;
+    height: 45px;
+    float: left;
+    padding-top: 5px;
+}
+
+header .prfhld{
+    float: right;
+    margin-right: 15px;
+    margin-top: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+header .prfhld #avater-header{
+    font-size: 35px;
+}
+
+nav{
+    width: 20%;
+    height: 100vh;
+    position: fixed;
+    background-color: var(--navbg);
+    margin-left: -50%;
+    z-index: -2;
+    display: none;
+}
+
+.menuOpen{
+    margin-left: 0;
+    z-index: 5;
+    display: inherit;
+
+}
+
+
+nav .crshld{
+    padding-top: 7px;
+    padding-right: 10px;
+}
+
+nav .crshld :hover{
+    cursor: pointer;
+}
+
+nav .crshld #cross{
+    color: white;
+    font-size: 40px;
+    float: right;
+}
+
+nav ul{
+    margin-top: 20vh;
+    list-style: none;
+    padding-left: 0;
+}
+
+
+nav ul li{
+    padding-top: 10px;
+    padding-bottom: 15px;
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav ul li a{
+    color: white;
+    text-decoration: none;
+    font-family: 'Old Standard TT', serif;
+}
+
+nav ul li a:hover{
+    font-weight: bold;
+    color: white;
+    margin-left: 10px;
+    transition: ease-in-out 350ms;
+}
+
+.active{
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 900px){
+    nav{
+        width: 40%;
+    }
+    
+    nav .crshld #cross{
+        font-size: 36px;
+    }
+    
+    nav ul{
+        margin-top: 20vh;
+    }
+
+    nav ul li{
+        font-size: 18px;
+        padding-top: 20px;
+        padding-bottom: 25px;
+    }
+    
+}
+
+
+@media only screen and (max-width: 480px){
+    nav{
+        width: 60%;
+    }
+    
+    nav .crshld #cross{
+        font-size: 34px;
+    }
+    
+    nav ul{
+        margin-top: 20vh;
+    }
+
+    nav ul li{
+        padding-top: 10px;
+        padding-bottom: 15px;
+    }
+    
+}

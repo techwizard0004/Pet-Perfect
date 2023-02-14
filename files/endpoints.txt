@@ -1,0 +1,4 @@
+1. signup - http://localhost:8082/backend/api - POST
+2. login - http://localhost:8082/backend/api - POST
+3. userprofile - http://localhost:8082/backend/api - GET
+4. updateprofile - http://localhost:8082/backend/api - PUT
