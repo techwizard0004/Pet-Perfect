@@ -61,12 +61,16 @@ public class AuthController {
 
     @PreAuthorize("permitAll()")
     @PostMapping("/public/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest){
+    public ResponseEntity<Boolean> register(@Valid @RequestBody UserRequest userRequest){
         if(userRequest == null){
             throw new MethodArgumentsNotFound("User Request is null");
         }
         UserResponse res = this.userService.saveUser(userRequest);
-        return new ResponseEntity<>(res,HttpStatus.CREATED);
+        if(res!=null){
+            return new ResponseEntity<>(Boolean.TRUE,HttpStatus.CREATED);
+        }
+        else return new ResponseEntity<>(Boolean.FALSE,HttpStatus.INTERNAL_SERVER_ERROR);
+
 
     }
 
