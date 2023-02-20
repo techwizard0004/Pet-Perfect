@@ -1,9 +1,11 @@
 package io.petperfect.backend.exception;
 
+import io.jsonwebtoken.JwtException;
 import io.petperfect.backend.payloads.ApiResponse;
 import org.springframework.data.mapping.MappingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -75,7 +77,7 @@ public class ApplicationExceptionHandler {
         ApiResponse apiResponse = new ApiResponse(errorResponse, false, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
     }
-/*
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiResponse> badCredentialsException(BadCredentialsException badCredentialsException) {
         errorResponse.put(ERROR_KEY, badCredentialsException.getMessage());
@@ -90,7 +92,7 @@ public class ApplicationExceptionHandler {
         return new ResponseEntity<>(apiResponse,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-*/
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> exception(Exception exception) {
         errorResponse.put(ERROR_KEY, exception.getMessage());
