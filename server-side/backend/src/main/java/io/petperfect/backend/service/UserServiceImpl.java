@@ -10,7 +10,6 @@ import io.petperfect.backend.payloads.UserRequest;
 import io.petperfect.backend.payloads.UserResponse;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
     public List<UserResponse> findAll() {
         List<UserEntity> users = userRepo.findAll();
         if (!users.isEmpty()) {
-            return users.stream().map(this::convertUserToUserResponse).collect(Collectors.toList());
+            return users.stream().map(this::convertUserToUserResponse).toList();
 
         }
         return Collections.emptyList();
@@ -124,7 +123,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse registerUser(UserRequest userRequest) {
-        return null;
+    public Boolean activateUser(String email) {
+        UserEntity user = this.findByEmail(email);
+        if(Boolean.FALSE.equals(user.getIsActive())){
+            user.setIsActive(true);
+            this.userRepo.activeUser(true,user.getEmail());
+            return true;
+        }
+        else {
+            throw new RuntimeException("User with email: "+email+" already activated.");
+        }
+
     }
 }

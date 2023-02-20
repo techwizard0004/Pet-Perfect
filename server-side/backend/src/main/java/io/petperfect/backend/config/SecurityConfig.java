@@ -30,8 +30,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableMethodSecurity
 public class SecurityConfig {
     private static final String[] PUBLIC_URL = {
-            "/backend/auth/**",
-            "/backend/api/user/get-all",
+            "/backend/api/public/**",
             "/v3/api-docs",
             "/v2/api-docs",
             "/swagger-resources/**",

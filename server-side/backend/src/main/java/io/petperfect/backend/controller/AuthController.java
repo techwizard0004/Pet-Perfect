@@ -23,12 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("backend/auth")
+@RequestMapping("/backend/api")
 public class AuthController {
     @Autowired private JwtTokenHelper jwtTokenHelper;
 
@@ -39,7 +36,7 @@ public class AuthController {
     @Autowired private UserService userService;
 
     @PreAuthorize("permitAll()")
-    @PostMapping("/login")
+    @PostMapping("/public/login")
     public ResponseEntity<JwtAuthResponse> createToken(@Valid @RequestBody JwtAuthReq jwtAuthReq){
         this.authenticate(jwtAuthReq.getEmail(),jwtAuthReq.getPassword());
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtAuthReq.getEmail());
@@ -63,12 +60,12 @@ public class AuthController {
     }
 
     @PreAuthorize("permitAll()")
-    @PostMapping("/register")
+    @PostMapping("/public/register")
     public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest){
         if(userRequest == null){
             throw new MethodArgumentsNotFound("User Request is null");
         }
-        UserResponse res = this.userService.registerUser(userRequest);
+        UserResponse res = this.userService.saveUser(userRequest);
         return new ResponseEntity<>(res,HttpStatus.CREATED);
 
     }

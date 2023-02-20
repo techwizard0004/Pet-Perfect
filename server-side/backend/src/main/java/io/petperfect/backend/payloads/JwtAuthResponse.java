@@ -1,6 +1,5 @@
 package io.petperfect.backend.payloads;
 
-import io.petperfect.backend.entity.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
