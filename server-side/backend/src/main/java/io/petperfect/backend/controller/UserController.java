@@ -1,6 +1,8 @@
 package io.petperfect.backend.controller;
 
+import io.petperfect.backend.entity.UserEntity;
 import io.petperfect.backend.exception.MethodArgumentsNotFound;
+import io.petperfect.backend.exception.UnauthorizedException;
 import io.petperfect.backend.payloads.UserRequest;
 import io.petperfect.backend.payloads.UserResponse;
 import io.petperfect.backend.security.JwtTokenHelper;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -28,34 +31,46 @@ public class UserController {
     @Autowired
     private JwtTokenHelper jwtTokenHelper;
 
-
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/user/get-all")
-    public ResponseEntity<List<UserResponse>> getAllUser(){
+    public ResponseEntity<List<UserResponse>> getAllUser() {
         return new ResponseEntity<>(this.userService.findAll(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/user/save")
-    public ResponseEntity<Boolean> saveUser(@Valid @RequestBody UserRequest userRequest){
-        if(userRequest.getEmail()!=null){
-            UserResponse user= this.userService.saveUser(userRequest);
-            if(user==null){
-                return new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Boolean> saveUser(@Valid @RequestBody UserRequest userRequest) {
+        if (userRequest.getEmail() != null) {
+            UserResponse user = this.userService.saveUser(userRequest);
+            if (user == null) {
+                return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(true,HttpStatus.OK);
+            return new ResponseEntity<>(true, HttpStatus.OK);
         }
-       throw new MethodArgumentsNotFound("User Data is Not Given");
+        throw new MethodArgumentsNotFound("User Data is Not Given");
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/user/activate")
-    public ResponseEntity<Boolean> activateUser(@RequestParam(required = true) String email){
-        return new ResponseEntity<>(this.userService.activateUser(email),HttpStatus.OK);
+    public ResponseEntity<Boolean> activateUser(@RequestParam(required = true) String email) {
+        return new ResponseEntity<>(this.userService.activateUser(email), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/user/deactivate")
+    public ResponseEntity<Boolean> deActivateUser(@RequestParam(required = true) String email) {
+        return new ResponseEntity<>(this.userService.deActivateUser(email), HttpStatus.OK);
+    }
 
+    @GetMapping("/user/profile")
+    public ResponseEntity<UserResponse> getUserProfile(Principal principal) {
 
-
+        String email = this.jwtTokenHelper.extractUsername(principal.getName());
+        if (this.userService.existsByEmail(email)) {
+            UserEntity user = this.userService.findByEmail(email);
+            return new ResponseEntity<>(this.userService.convertUserToUserResponse(user), HttpStatus.OK);
+        }
+        throw new UnauthorizedException("User with email :" + email + " is not authorized to access. ");
+    }
 
 }

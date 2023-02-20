@@ -14,9 +14,9 @@ import java.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.petperfect.backend.repository.UserRepo;
@@ -34,10 +34,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired RoleService roleService;
+    @Autowired
+    RoleService roleService;
     @Autowired
     private ModelMapper modelMapper;
-
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
@@ -56,14 +56,14 @@ public class UserServiceImpl implements UserService {
                 return this.convertUserToUserResponse(user);
             } else {
                 LOGGER.warn("User already exists");
-              throw new ResourceAlreadyExists("User", EMAIL, userRequest.getEmail());
+                throw new ResourceAlreadyExists("User", EMAIL, userRequest.getEmail());
             }
         } else {
             throw new MethodArgumentsNotFound("UserRequest is null");
 
         }
-        
-}
+
+    }
 
     @Override
     public List<UserResponse> findAll() {
@@ -79,20 +79,20 @@ public class UserServiceImpl implements UserService {
     public UserResponse updateUser(UserRequest userRequest, int id, String reqUseremail) {
         if (userRequest != null && id > 0) {
             UserEntity user = this.userRepo.findById(id).orElseThrow();
-            if(!user.getEmail().equalsIgnoreCase(reqUseremail)){
+            if (!user.getEmail().equalsIgnoreCase(reqUseremail)) {
                 throw new UnauthorizedException("You are not authorized to update this user");
 
             }
             user.setUserId(id);
             user.setEmail(userRequest.getEmail());
             user.setName(userRequest.getName());
-           // user.setPassword(userRequest.getPassword());
+            // user.setPassword(userRequest.getPassword());
             userRepo.save(user);
             LOGGER.info("USER_UPDATED");
             return this.convertUserToUserResponse(user);
 
         } else {
-           throw new MethodArgumentsNotFound("UserRequest or Id is null");
+            throw new MethodArgumentsNotFound("UserRequest or Id is null");
 
         }
     }
@@ -128,14 +128,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean activateUser(String email) {
         UserEntity user = this.findByEmail(email);
-        if(Boolean.FALSE.equals(user.getIsActive())){
+        if (Boolean.FALSE.equals(user.getIsActive())) {
             user.setIsActive(true);
-            this.userRepo.activeUser(true,user.getEmail());
+            this.userRepo.activeUser(true, user.getEmail());
             return true;
-        }
-        else {
-            throw new RuntimeException("User with email: "+email+" already activated.");
+        } else {
+            throw new RuntimeException("User with email: " + email + " already activated.");
         }
 
+    }
+
+    @Override
+    public Boolean deActivateUser(String email) {
+        UserEntity user = this.findByEmail(email);
+        if (Boolean.FALSE.equals(user.getIsActive())) {
+            user.setIsActive(false);
+            this.userRepo.activeUser(false, user.getEmail());
+            return true;
+        } else {
+            throw new RuntimeException("User with email: " + email + " already activated.");
+        }
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        if (email != null) {
+            if (Boolean.TRUE.equals(this.userRepo.existsByEmail(email))) {
+                return true;
+            } else {
+                throw new ResourceNotFoundException("User does not exists with mail: " + email);
+            }
+        }
+        throw new MethodArgumentsNotFound("email is empty .");
     }
 }

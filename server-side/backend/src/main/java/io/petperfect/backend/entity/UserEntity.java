@@ -3,7 +3,6 @@ package io.petperfect.backend.entity;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

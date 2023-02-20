@@ -14,8 +14,10 @@ public interface UserRepo extends JpaRepository<UserEntity, Integer> {
 
     public void deleteByEmailIgnoreCase(String email);
 
+    public Boolean existsByEmail(String email);
+
     @Modifying
     @Query("update UserEntity u set u.isActive = :status where u.email = :email")
     void activeUser(@Param("status") Boolean status,
-                                   @Param("email") String email);
+            @Param("email") String email);
 }

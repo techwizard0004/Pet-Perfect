@@ -3,17 +3,14 @@ package io.petperfect.backend.service;
 import io.petperfect.backend.entity.Role;
 import io.petperfect.backend.exception.MethodArgumentsNotFound;
 import io.petperfect.backend.repository.RoleRepo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RoleService implements  RoleInterface{
+public class RoleService implements RoleInterface {
 
-    private static final Logger LOGGER = LogManager.getLogger(RoleService.class);
     @Autowired
     private RoleRepo roleRepo;
 
@@ -23,7 +20,7 @@ public class RoleService implements  RoleInterface{
 
     @Override
     public String findRoleNameById(int id) {
-        if(id==0) {
+        if (id == 0) {
             throw new MethodArgumentsNotFound("Id", "findRoleNameById", id);
 
         }
@@ -32,7 +29,7 @@ public class RoleService implements  RoleInterface{
 
     @Override
     public int findRoleIdByName(String name) {
-        if(name==null) {
+        if (name == null) {
             throw new MethodArgumentsNotFound("Name field id null at findRoleIdByName");
 
         }
@@ -41,14 +38,14 @@ public class RoleService implements  RoleInterface{
 
     @Override
     public Role findRoleByName(String name) {
-        if(name==null) {
-           throw new MethodArgumentsNotFound("Name filed is null at findRoleByName");
+        if (name == null) {
+            throw new MethodArgumentsNotFound("Name filed is null at findRoleByName");
         }
         return this.roleRepo.findByName(name);
     }
 
     public void saveRole(Role role) {
-        if(role==null) {
+        if (role == null) {
             throw new MethodArgumentsNotFound("Role", "saveRole", null);
         }
         this.roleRepo.save(role);

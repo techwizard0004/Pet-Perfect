@@ -12,9 +12,11 @@ public interface UserService {
 
     List<UserResponse> findAll();
 
-    UserResponse updateUser(UserRequest userRequest,int id, String reqUseremail);
+    UserResponse updateUser(UserRequest userRequest, int id, String reqUseremail);
 
     UserEntity findByEmail(String email);
+
+    boolean existsByEmail(String email);
 
     UserEntity convertUserRequestToUser(UserRequest userRequest);
 
@@ -22,5 +24,6 @@ public interface UserService {
 
     Boolean activateUser(String email);
 
+    Boolean deActivateUser(String email);
 
 }
