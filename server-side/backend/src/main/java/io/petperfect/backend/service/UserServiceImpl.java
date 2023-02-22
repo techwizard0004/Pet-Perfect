@@ -113,6 +113,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity findByUserId(Integer id) {
+        if (id > 0) {
+            UserEntity user = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user", "id", id));
+            LOGGER.info(USER_FOUND, user.getEmail());
+            return user;
+        } else {
+            throw new MethodArgumentsNotFound("Id", "findById", id);
+        }
+
+    }
+
+    @Override
     public UserEntity convertUserRequestToUser(UserRequest userRequest) {
         return modelMapper.map(userRequest, UserEntity.class);
     }
@@ -129,7 +141,6 @@ public class UserServiceImpl implements UserService {
     public Boolean activateUser(String email) {
         UserEntity user = this.findByEmail(email);
         if(Boolean.FALSE.equals(user.getIsActive())){
-            user.setIsActive(true);
             this.userRepo.activeUser(true,user.getEmail());
             return true;
         }
@@ -137,5 +148,17 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User with email: "+email+" already activated.");
         }
 
+    }
+
+    @Override
+    public Boolean deactivateUser(String email) {
+        UserEntity user = this.findByEmail(email);
+        if(Boolean.TRUE.equals(user.getIsActive())){
+            this.userRepo.activeUser(false,user.getEmail());
+            return true;
+        }
+        else {
+            throw new RuntimeException("User with email: "+email+" already deactivated.");
+        }
     }
 }

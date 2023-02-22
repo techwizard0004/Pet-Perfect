@@ -14,13 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/backend/api")
 public class   UserController {
-
-    private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 
     @Autowired
     private UserServiceImpl userService;
@@ -54,7 +53,28 @@ public class   UserController {
         return new ResponseEntity<>(this.userService.activateUser(email),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/user/deactivate")
+    public ResponseEntity<Boolean> deactivateUser(@RequestParam(required = true) String email){
+        return new ResponseEntity<>(this.userService.deactivateUser(email),HttpStatus.OK);
+    }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("/user/profile")
+    public ResponseEntity<UserResponse> getUserProfile(Principal principal){
+        String email = this.jwtTokenHelper.extractUsername(principal.getName());
+        return new ResponseEntity<>(this.userService.convertUserToUserResponse(this.userService.findByEmail(email)),HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/user/details-id")
+    public ResponseEntity<UserResponse> getUserDetailsById(@RequestParam(required = true) Integer id){
+        if(id>0){
+            return new ResponseEntity<>(this.userService.convertUserToUserResponse(this.userService.findByUserId(id)),HttpStatus.OK);
+        }else{
+            throw new MethodArgumentsNotFound("User Id Not Given .");
+        }
+    }
 
 
 
