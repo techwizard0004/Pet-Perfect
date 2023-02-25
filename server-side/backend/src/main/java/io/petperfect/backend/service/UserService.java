@@ -3,6 +3,7 @@ package io.petperfect.backend.service;
 import java.util.List;
 
 import io.petperfect.backend.entity.UserEntity;
+import io.petperfect.backend.payloads.UpdateProfileRequest;
 import io.petperfect.backend.payloads.UserRequest;
 import io.petperfect.backend.payloads.UserResponse;
 
@@ -12,7 +13,7 @@ public interface UserService {
 
     List<UserResponse> findAll();
 
-    UserResponse updateUser(UserRequest userRequest,int id, String reqUseremail);
+    UserResponse updateUser(UpdateProfileRequest userRequest, int id, String email);
 
     UserEntity findByEmail(String email);
 

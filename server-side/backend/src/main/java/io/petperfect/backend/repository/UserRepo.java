@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface UserRepo extends JpaRepository<UserEntity, Integer> {
     public UserEntity findByEmailIgnoreCase(String email);
 
+
+
     public void deleteByEmailIgnoreCase(String email);
 
     @Transactional
