@@ -16,11 +16,15 @@ public interface UserService {
 
     UserEntity findByEmail(String email);
 
+    UserEntity findByUserId(Integer id);
+
     UserEntity convertUserRequestToUser(UserRequest userRequest);
 
     UserResponse convertUserToUserResponse(UserEntity user);
 
     Boolean activateUser(String email);
+
+    Boolean deactivateUser(String email);
 
 
 }
