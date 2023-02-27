@@ -1,13 +1,12 @@
 package io.petperfect.backend.controller;
 
 import io.petperfect.backend.exception.MethodArgumentsNotFound;
+import io.petperfect.backend.payloads.UpdateProfileRequest;
 import io.petperfect.backend.payloads.UserRequest;
 import io.petperfect.backend.payloads.UserResponse;
 import io.petperfect.backend.security.JwtTokenHelper;
 import io.petperfect.backend.service.UserServiceImpl;
 import jakarta.validation.Valid;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,12 +58,26 @@ public class   UserController {
         return new ResponseEntity<>(this.userService.deactivateUser(email),HttpStatus.OK);
     }
 
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')")
     @GetMapping("/user/profile")
     public ResponseEntity<UserResponse> getUserProfile(Principal principal){
         String email = this.jwtTokenHelper.extractUsername(principal.getName());
         return new ResponseEntity<>(this.userService.convertUserToUserResponse(this.userService.findByEmail(email)),HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')")
+    @GetMapping("/user/profile/update")
+    public ResponseEntity<UserResponse> updateUserProfile(@Valid @RequestBody UpdateProfileRequest userRequest,
+                                                          @RequestParam(required = true) int id ,
+                                                          Principal principal){
+        String email = this.jwtTokenHelper.extractUsername(principal.getName());
+        if(id>0){
+
+            return new ResponseEntity<>(this.userService.updateUser(userRequest,id,email),HttpStatus.OK);
+
+        }
+        throw new MethodArgumentsNotFound("User id for update is not given.");
+    }
+
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/user/details-id")

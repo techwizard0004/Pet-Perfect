@@ -6,6 +6,7 @@ import io.petperfect.backend.exception.MethodArgumentsNotFound;
 import io.petperfect.backend.exception.ResourceAlreadyExists;
 import io.petperfect.backend.exception.ResourceNotFoundException;
 import io.petperfect.backend.exception.UnauthorizedException;
+import io.petperfect.backend.payloads.UpdateProfileRequest;
 import io.petperfect.backend.payloads.UserRequest;
 import io.petperfect.backend.payloads.UserResponse;
 
@@ -16,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.petperfect.backend.repository.UserRepo;
@@ -76,20 +76,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateUser(UserRequest userRequest, int id, String reqUseremail) {
+    public UserResponse updateUser(UpdateProfileRequest userRequest, int id, String email) {
         if (userRequest != null && id > 0) {
-            UserEntity user = this.userRepo.findById(id).orElseThrow();
-            if(!user.getEmail().equalsIgnoreCase(reqUseremail)){
-                throw new UnauthorizedException("You are not authorized to update this user");
 
+            UserEntity user = this.findByUserId(id);
+            if(!(user.getEmail().equalsIgnoreCase(email)|| userRepo.findByEmailIgnoreCase(email).getRoles().contains(roleService.findRoleByName("ROLE_ADMIN")))) {
+                throw new UnauthorizedException("Unauthorized user access");
             }
-            user.setUserId(id);
-            user.setEmail(userRequest.getEmail());
-            user.setName(userRequest.getName());
-           // user.setPassword(userRequest.getPassword());
-            userRepo.save(user);
-            LOGGER.info("USER_UPDATED");
-            return this.convertUserToUserResponse(user);
+
+                user.setUserId(id);
+                user.setEmail(userRequest.getEmail());
+                user.setContact(userRequest.getContact());
+                user.setName(userRequest.getName());
+                user.setAge(userRequest.getAge());
+                user.setAddress(userRequest.getAddress());
+                if (user.getRoles().contains(roleService.findRoleByName("ROLE_TRAINER"))) {
+                    user.setLicenceNo(userRequest.getLicenceNo());
+                    user.setShopName(userRequest.getShopName());
+                }
+                user = userRepo.save(user);
+                LOGGER.info("USER_UPDATED");
+                return this.convertUserToUserResponse(user);
+
 
         } else {
            throw new MethodArgumentsNotFound("UserRequest or Id is null");
