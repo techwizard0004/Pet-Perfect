@@ -9,10 +9,8 @@ class UserService{
         let session = new SessionService();
         const token = session.getLoggedInUserToken();
 
-        var config = {
-            // headers: {
-            //     authorization: "bearer " + token
-            // }
+        let config = {
+           
         }
 
         return httpClient.post(MAIN_URL+"/public/register", userEntity, config);
@@ -22,13 +20,25 @@ class UserService{
         let session = new SessionService();
         const token = session.getLoggedInUserToken();
 
-        var config = {
-            // headers: {
-            //     authorization: "bearer " + token
-            // }
+        let config = {
+            
         }
 
         return httpClient.post(MAIN_URL+"/public/login", loginEntity, config);
+    }
+
+    getUserProfile(): Promise<AxiosResponse<any, any>>{
+        let session = new SessionService();
+        const token = session.getLoggedInUserToken();
+
+        let config = {
+            headers: {
+                authorization: "Bearer " + token
+            }
+        }
+
+        console.log(config);
+        return httpClient.get(MAIN_URL+"/user/profile", config);
     }
 }
 

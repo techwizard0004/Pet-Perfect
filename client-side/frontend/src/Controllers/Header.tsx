@@ -2,7 +2,7 @@ import React from 'react';
 import "../Styles/Header.css";
 import Logo from "../Assets/logo.png";
 
-import { faBars, faUser, faBagShopping, faUserPlus, faXmarkSquare, faHomeUser, faHistory, faCartPlus, faRightFromBracket, faUserCircle, faListCheck, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser, faXmarkSquare, faHomeUser, faAddressBook, faRightFromBracket, faUserCircle, faListSquares } from '@fortawesome/free-solid-svg-icons';
 import { } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -35,8 +35,9 @@ function Header() {
                 <ul className="d-flex flex-column align-items-center">
                     <li><NavLink to="/home" onClick={() => toggleMenu(false)}><FontAwesomeIcon icon={faHomeUser} /> Home</NavLink></li>
                     <li><NavLink to="/login" onClick={() => toggleMenu(false)}><FontAwesomeIcon icon={faRightFromBracket} /> Login</NavLink></li>
-                    <li><NavLink to="/register" onClick={() => toggleMenu(false)}><FontAwesomeIcon icon={faRightFromBracket} /> Signup</NavLink></li>
-                    <li><NavLink to="/profile" onClick={() => toggleMenu(false)}><FontAwesomeIcon icon={faUserCircle} /> Profile</NavLink></li>
+                    <li><NavLink to="/register" onClick={() => toggleMenu(false)}><FontAwesomeIcon icon={faAddressBook} /> Signup</NavLink></li>
+                    <li><NavLink to="/userlist" onClick={() => toggleMenu(false)}><FontAwesomeIcon icon={faListSquares} /> All-Users</NavLink></li>
+                    <li><NavLink to="/profile" onClick={() => toggleMenu(false)}><FontAwesomeIcon icon={faUser} /> Profile</NavLink></li>
                 </ul>
             </nav>
         </div>
