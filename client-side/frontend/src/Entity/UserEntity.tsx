@@ -8,5 +8,5 @@ export default interface UserEntity{
     password: string | null;
     shopName: string | null;
     licenceNo: string | null;
-    role: string | null;
+    role: object | string | null;
 }

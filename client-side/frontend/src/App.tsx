@@ -18,6 +18,7 @@ import SignupRoute from './Controllers/SignupRoute';
 import Profile from './Controllers/Profile';
 import UpdateProfile from './Controllers/UpdateProfile';
 import Login from './Controllers/Login';
+import UserLists from './Controllers/UserLists';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/signup/:role" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/updateprofile" element={<UpdateProfile />} />
+        <Route path="/userlist" element={<UserLists />} />
       </Routes>
       <Footer />
     </BrowserRouter>

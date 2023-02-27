@@ -3,10 +3,12 @@ import UserEntity from '../Entity/UserEntity';
 import "../Styles/Profile.css";
 import UserLogo from "../Assets/user.png";
 import SessionService from '../Services/SessionService';
+import UserService from '../Services/UserService';
+import { AxiosResponse } from 'axios';
 
 function Profile() {
     const session = new SessionService();
-    if(session.isUserLoggedIn() !== true){
+    if (session.isUserLoggedIn() !== true) {
         window.location.href = "/login";
     }
 
@@ -24,7 +26,26 @@ function Profile() {
     });
 
     useEffect(() => {
-       
+        const userService = new UserService();
+        let response: Promise<AxiosResponse<any, any>> = userService.getUserProfile();
+
+        response.then((response: AxiosResponse<any, any>) => {
+            setUserEntity({
+                id: 0,
+                name: response.data.name,
+                email: response.data.email,
+                address: response.data.address,
+                contact: response.data.contact,
+                age: response.data.age,
+                password: "",
+                shopName: response.data.shopName,
+                licenceNo: response.data.licenceNo,
+                role: response.data.role[0].name
+            });
+        }).catch((error: any) => {
+            console.log(error);
+        })
+
     }, []);
 
     const handleLogoutButtonClick = () => {
@@ -45,7 +66,7 @@ function Profile() {
                         </div>
                         <div className="bdyhld">
                             {
-                                Object.entries(userEntity).filter(([key, value]) => value != "").map(([key, value]) =>
+                                Object.entries(userEntity).filter(([key, value]) => value != "" || value !=0).map(([key, value]) =>
                                     <h4><b>{key.toString().charAt(0).toUpperCase() + key.toString().substring(1, key.toString().length).toLowerCase()}</b>: {value}</h4>
                                 )
                             }
