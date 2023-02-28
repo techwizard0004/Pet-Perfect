@@ -1,0 +1,67 @@
+.container-fluid #wrapper-card{
+    background-color: var(--bgthree);
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 50px;
+    padding-top: 15vh;
+}
+
+.container-fluid #wrapper-card .col-sm-12 .card{
+    width: 30%;
+    border-radius: 5px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-top: 15px;
+}
+
+.container-fluid #wrapper-card .col-sm-12 .card .card-body h4{
+    font-size: 20px;
+    font-family: 'Aleo', serif;
+    line-height: 30px;
+    color: black;
+}
+
+.container-fluid #wrapper-card .col-sm-12 .card .card-body button{
+    width: 40%;
+    height: 45px;
+    margin-top: 15px;
+}
+
+
+
+
+
+
+
+@media only screen and (max-width: 900px){
+    .container-fluid #wrapper-card{
+        padding-top: 5vh;
+    }
+
+    .container-fluid #wrapper-card .col-sm-12 .card{
+        width: 65%;
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .container-fluid #wrapper-card .col-sm-12 .card{
+        width: 95%;
+    }
+
+    .container-fluid #wrapper-card{
+        padding-top: 15vh;
+    }
+
+    .container-fluid #wrapper-card .col-sm-12 .card{
+        width: 95%;
+    }
+
+    .container-fluid #wrapper-card .col-sm-12 .card .bdyhld .card-body button{
+        width: 45%;
+    }
+
+    .container-fluid #wrapper-card .col-sm-12 .card .card-body h4{
+        font-size: 17px;
+    }
+}

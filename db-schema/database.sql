@@ -1,4 +1,4 @@
-create database if not exists `petperfect`;
+-- create database if not exists `petperfect`;
 use `petperfect`;
 show tables;
 select * from `role`;

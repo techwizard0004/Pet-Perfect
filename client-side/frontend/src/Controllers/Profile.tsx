@@ -13,7 +13,7 @@ function Profile() {
     }
 
     const [userEntity, setUserEntity] = useState<UserEntity>({
-        id: 0,
+        userId: 0,
         name: "",
         email: "",
         address: "",
@@ -31,7 +31,7 @@ function Profile() {
 
         response.then((response: AxiosResponse<any, any>) => {
             setUserEntity({
-                id: 0,
+                userId: response.data.userId,
                 name: response.data.name,
                 email: response.data.email,
                 address: response.data.address,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import UserEntity from '../Entity/UserEntity';
 import * as Yup from "yup";
-import { FormComponent } from '../Utils/FormComponet';
+import { FormComponent } from '../Utils/FormComponent';
 import InputModel from '../Models/InputModel';
 import "../Styles/Form.css";
 import SessionService from '../Services/SessionService';
@@ -19,7 +19,7 @@ function Signup() {
 
   const role = useParams().role;
   const [userEntity, setUserEntity] = useState<UserEntity>({
-    id: 0,
+    userId: 0,
     name: "",
     email: "",
     address: "",
@@ -34,7 +34,7 @@ function Signup() {
 
   useEffect(() => {
     setUserEntity({
-      id: 0,
+      userId: 0,
       name: "",
       email: "",
       address: "",
