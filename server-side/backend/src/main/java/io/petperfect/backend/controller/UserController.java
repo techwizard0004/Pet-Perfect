@@ -48,14 +48,14 @@ public class   UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/user/activate")
-    public ResponseEntity<Boolean> activateUser(@RequestParam(required = true) String email){
-        return new ResponseEntity<>(this.userService.activateUser(email),HttpStatus.OK);
+    public ResponseEntity<Boolean> activateUser(@RequestParam(required = true) Integer id){
+        return new ResponseEntity<>(this.userService.activateUser(id),HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/user/deactivate")
-    public ResponseEntity<Boolean> deactivateUser(@RequestParam(required = true) String email){
-        return new ResponseEntity<>(this.userService.deactivateUser(email),HttpStatus.OK);
+    public ResponseEntity<Boolean> deactivateUser(@RequestParam(required = true) Integer id){
+        return new ResponseEntity<>(this.userService.deactivateUser(id),HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')")
@@ -65,19 +65,19 @@ public class   UserController {
         return new ResponseEntity<>(this.userService.convertUserToUserResponse(this.userService.findByEmail(email)),HttpStatus.OK);
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_TRAINER')")
-    @GetMapping("/user/profile/update")
-    public ResponseEntity<UserResponse> updateUserProfile(@Valid @RequestBody UpdateProfileRequest userRequest,
+    @PutMapping("/user/profile/update")
+    public ResponseEntity<Boolean> updateUserProfile(@Valid @RequestBody UpdateProfileRequest userRequest,
                                                           @RequestParam(required = true) int id ,
                                                           Principal principal){
         String email = this.jwtTokenHelper.extractUsername(principal.getName());
         if(id>0){
 
-            return new ResponseEntity<>(this.userService.updateUser(userRequest,id,email),HttpStatus.OK);
+            this.userService.updateUser(userRequest,id,email);
+            return new ResponseEntity<>(true,HttpStatus.OK);
 
         }
         throw new MethodArgumentsNotFound("User id for update is not given.");
     }
-
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/user/details-id")
@@ -89,6 +89,14 @@ public class   UserController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/user/is-active-or-deactive")
+    public ResponseEntity<String> isUserActiveOrDeactive(@RequestParam(required = true) Integer id){
+        if(id>0){
+            return new ResponseEntity<>(this.userService.isUserActiveOrDeactive(id),HttpStatus.OK);
+        }else{
+            throw new MethodArgumentsNotFound("User Id Not Given .");
+        }
+    }
 
 }

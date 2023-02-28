@@ -1,5 +1,5 @@
 export default interface UserEntity{
-    id: number | null;
+    userId: number | null;
     name: string | null;
     email: string | null;
     address: string | null;
@@ -8,5 +8,5 @@ export default interface UserEntity{
     password: string | null;
     shopName: string | null;
     licenceNo: string | null;
-    role: object | string | null;
+    role: object | string | null | Array<Object>;
 }

@@ -23,9 +23,11 @@ public interface UserService {
 
     UserResponse convertUserToUserResponse(UserEntity user);
 
-    Boolean activateUser(String email);
+    Boolean activateUser(Integer id);
 
-    Boolean deactivateUser(String email);
+    Boolean deactivateUser(Integer id);
+
+    String isUserActiveOrDeactive(Integer id);
 
 
 }

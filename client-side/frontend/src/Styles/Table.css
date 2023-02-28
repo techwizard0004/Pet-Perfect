@@ -1,0 +1,33 @@
+.container-fluid #wrapper-listpage{
+    min-height: 100vh;
+    height: auto;
+    padding-bottom: 50px;
+    padding-top: 15vh;
+}
+
+.container-fluid #wrapper-listpage table{
+    text-align: center;
+    color: white;
+    font-family: 'Aleo', serif;
+}
+
+.container-fluid #wrapper-listpage table thead{
+    background-color: var(--bgtwo);
+}
+
+.container-fluid #wrapper-listpage table thead tr{
+    height: 30px;
+}
+
+.container-fluid #wrapper-listpage table tbody tr:nth-child(even){
+    background-color: var(--bgthree);
+}
+
+.container-fluid #wrapper-listpage table tbody tr:nth-child(odd){
+    color: black;
+}
+
+.container-fluid #wrapper-listpage .table tbody button{
+    width: 40px;
+    height: 35px;
+}

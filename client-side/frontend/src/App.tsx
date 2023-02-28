@@ -19,6 +19,7 @@ import Profile from './Controllers/Profile';
 import UpdateProfile from './Controllers/UpdateProfile';
 import Login from './Controllers/Login';
 import UserLists from './Controllers/UserLists';
+import UserDetails from './Controllers/UserDetails';
 
 function App() {
   return (
@@ -31,8 +32,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup/:role" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/updateuser/:id" element={<UpdateProfile />} />
         <Route path="/updateprofile" element={<UpdateProfile />} />
         <Route path="/userlist" element={<UserLists />} />
+        <Route path="/userdetails/:id" element={<UserDetails />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import LoginEntity from '../Entity/LoginEntity'
 import InputModel from '../Models/InputModel';
 import * as Yup from "yup";
-import { FormComponent } from '../Utils/FormComponet';
+import { FormComponent } from '../Utils/FormComponent';
 import SessionService from '../Services/SessionService';
 import { AxiosResponse } from 'axios';
 import swal from 'sweetalert';

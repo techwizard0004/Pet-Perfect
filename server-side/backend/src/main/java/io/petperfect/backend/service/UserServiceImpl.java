@@ -80,17 +80,15 @@ public class UserServiceImpl implements UserService {
         if (userRequest != null && id > 0) {
 
             UserEntity user = this.findByUserId(id);
-            if(!(user.getEmail().equalsIgnoreCase(email)|| userRepo.findByEmailIgnoreCase(email).getRoles().contains(roleService.findRoleByName("ROLE_ADMIN")))) {
+            if(!(user.getEmail().equalsIgnoreCase(email)|| userRepo.findByEmailIgnoreCase(email).getRoles().stream().anyMatch(role -> role.getName().equalsIgnoreCase("ROLE_ADMIN")))) {
                 throw new UnauthorizedException("Unauthorized user access");
             }
-
-                user.setUserId(id);
                 user.setEmail(userRequest.getEmail());
                 user.setContact(userRequest.getContact());
                 user.setName(userRequest.getName());
                 user.setAge(userRequest.getAge());
                 user.setAddress(userRequest.getAddress());
-                if (user.getRoles().contains(roleService.findRoleByName("ROLE_TRAINER"))) {
+                if (user.getRoles().stream().anyMatch(role -> role.getName().equalsIgnoreCase("ROLE_TRAINER") || role.getName().equalsIgnoreCase("ROLE_ADMIN"))) {
                     user.setLicenceNo(userRequest.getLicenceNo());
                     user.setShopName(userRequest.getShopName());
                 }
@@ -146,27 +144,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean activateUser(String email) {
-        UserEntity user = this.findByEmail(email);
+    public Boolean activateUser(Integer id) {
+        UserEntity user = this.findByUserId(id);
         if(Boolean.FALSE.equals(user.getIsActive())){
             this.userRepo.activeUser(true,user.getEmail());
             return true;
         }
         else {
-            throw new RuntimeException("User with email: "+email+" already activated.");
+            throw new RuntimeException("User with Id: "+id+" already activated.");
         }
 
     }
 
     @Override
-    public Boolean deactivateUser(String email) {
-        UserEntity user = this.findByEmail(email);
+    public Boolean deactivateUser(Integer id) {
+        UserEntity user = this.findByUserId(id);
         if(Boolean.TRUE.equals(user.getIsActive())){
             this.userRepo.activeUser(false,user.getEmail());
             return true;
         }
         else {
-            throw new RuntimeException("User with email: "+email+" already deactivated.");
+            throw new RuntimeException("User with Id: "+id+" already deactivated.");
+        }
+    }
+
+    @Override
+    public String isUserActiveOrDeactive(Integer id) {
+        UserEntity user = this.findByUserId(id);
+        if(Boolean.TRUE.equals(user.getIsActive())){
+            return "ACTIVE";
+        }else if(Boolean.FALSE.equals(user.getIsActive())){
+            return "DEACTIVE";
+        }
+        else {
+            throw new RuntimeException("User with Id: "+id+" already deactivated.");
         }
     }
 }
